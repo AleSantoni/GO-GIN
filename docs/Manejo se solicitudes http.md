@@ -1,3 +1,6 @@
+# Manejos de Solicitudes http
+
+```go
 package routes
 
 import (
@@ -42,3 +45,7 @@ func SetupRouters(r *gin.Engine) {
 	})
 
 }
+
+
+
+```
