@@ -17,28 +17,16 @@ var usuarios []Usuario
 
 func SetupRouters(r *gin.Engine) {
 
+	r.LoadHTMLGlob("templates/*")
+
 	r.GET("/", func(c *gin.Context) {
-		c.String(http.StatusOK, "Hello World")
+		c.HTML(http.StatusOK, "index.html", gin.H{
+			"Tilte":   "Mi Aplicacion",
+			"Heading": "Hola Mundo",
+			"Message": "Bienvenido a Mi Aplicacion Web con GIN",
+		})
 	})
-	r.GET("/saludo/:nombre", func(c *gin.Context) {
-		nombre := c.Param("nombre")
-		c.String(http.StatusOK, "Hola %s", nombre)
-	})
-	r.POST("/usuarios", func(c *gin.Context) {
 
-		var nuevoUsuario Usuario
-		if err := c.BindJSON(&nuevoUsuario); err != nil {
-			c.JSON(http.StatusBadRequest, gin.H{"error": "Error a decodificar el Json"})
-			return
-		}
-		if nuevoUsuario.Nombre == "" || nuevoUsuario.Email == "" {
-			c.JSON(http.StatusBadRequest, gin.H{"error": "Faltan datos"})
-			return
-		}
-		usuarios = append(usuarios, nuevoUsuario)
-
-		c.JSON(http.StatusOK, gin.H{"message": "Usuario creado correctamente", "Datos del usuario": usuarios})
-
-	})
+	r.Static("/static", "./static")
 
 }
